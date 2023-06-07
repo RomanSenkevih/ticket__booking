@@ -14,7 +14,7 @@ xhr.addEventListener('load', () => {
 
     films.result.forEach((el) => {
           main.insertAdjacentHTML("afterBegin", `
-          <section class="movie">
+          <section class="movie" data-movieId="${el.film_id}">
               <div class="movie__info">
               <div class="movie__poster">
                 <img class="movie__poster-image" alt="${el.film_name + ' постер'}" src="${el.film_poster}">
@@ -29,5 +29,39 @@ xhr.addEventListener('load', () => {
               </div>
             </div> 
           </section>`)  
+    });
+
+    const movieId = Array.from(document.querySelectorAll('.movie')); 
+    
+    movieId.forEach((element) => {
+       const dataMovieId = element.getAttribute('data-movieId');
+
+       halls.result.forEach((elem) => {
+          if(Number(elem.hall_open) != 0) {
+            element.insertAdjacentHTML("beforeEnd", `
+            <div class="movie-seances__hall" data-hallId="${elem.hall_id}">
+               <h3 class="movie-seances__hall-title">${elem.hall_name}</h3>
+               <ul class="movie-seances__list">
+                 <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html">llllllllllllll</a></li>
+               </ul>
+            </div>
+         `)
+          }
+       });
+
+    //    for(let i = 0; i < seances.result.length; i++) {
+    //       if(dataMovieId === seances.result[i].seance_filmid) {
+    //         element.insertAdjacentHTML("beforeEnd", `
+    //            <div class="movie-seances__hall">
+    //               <h3 class="movie-seances__hall-title">Зал</h3>
+    //               <ul class="movie-seances__list">
+    //                 <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html">${seances.result[i].seance_time}</a></li>
+    //               </ul>
+    //            </div>
+    //         `)
+    //         console.log('kkk')
+    //       }
+    //    };
+    
     });
 });
