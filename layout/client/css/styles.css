@@ -171,6 +171,14 @@ body {
   font-size: 1.5rem;
 }
 
+.movie .movie-seances__hall__remove {
+   display: none;
+}
+
+.movie .movie-seances__hall__add {
+  display: block;
+}
+
 /* ~~~~~~~~~~~~ Кинозал ~~~~~~~~~~~~ */
 .acceptin-button {
   display: block;

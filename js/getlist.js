@@ -34,34 +34,32 @@ xhr.addEventListener('load', () => {
     const movieId = Array.from(document.querySelectorAll('.movie')); 
     
     movieId.forEach((element) => {
-       const dataMovieId = element.getAttribute('data-movieId');
-
        halls.result.forEach((elem) => {
           if(Number(elem.hall_open) != 0) {
             element.insertAdjacentHTML("beforeEnd", `
-            <div class="movie-seances__hall" data-hallId="${elem.hall_id}">
-               <h3 class="movie-seances__hall-title">${elem.hall_name}</h3>
-               <ul class="movie-seances__list">
-                 <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html">llllllllllllll</a></li>
-               </ul>
-            </div>
-         `)
+               <div class="movie-seances__hall movie-seances__hall__remove" data-hallId="${elem.hall_id}">
+                  <h3 class="movie-seances__hall-title">${elem.hall_name}</h3>
+                  <ul class="movie-seances__list"></ul>
+               </div>
+            `)
           }
        });
+    });   
 
-    //    for(let i = 0; i < seances.result.length; i++) {
-    //       if(dataMovieId === seances.result[i].seance_filmid) {
-    //         element.insertAdjacentHTML("beforeEnd", `
-    //            <div class="movie-seances__hall">
-    //               <h3 class="movie-seances__hall-title">Зал</h3>
-    //               <ul class="movie-seances__list">
-    //                 <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html">${seances.result[i].seance_time}</a></li>
-    //               </ul>
-    //            </div>
-    //         `)
-    //         console.log('kkk')
-    //       }
-    //    };
-    
+    const movieSeancesList = Array.from(document.querySelectorAll('.movie-seances__list'));
+
+    movieSeancesList.forEach((e) => {
+       const dataMovieId = e.closest(".movie").getAttribute('data-movieId');
+       const movieSeances = e.parentElement.getAttribute('data-hallId');
+    //    console.log(`${movieSeances} <--> ${dataMovieId}`)
+       
+       for(let i = 0; i < seances.result.length; i++) {
+          if(dataMovieId === seances.result[i].seance_filmid && movieSeances === seances.result[i].seance_hallid) {
+              e.parentElement.classList.add('movie-seances__hall__add');
+              e.insertAdjacentHTML("beforeEnd", `
+              <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html">${seances.result[i].seance_time}<a></li>
+              `);
+          };     
+       };   
     });
 });
