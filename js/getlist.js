@@ -8,7 +8,7 @@ xhr.addEventListener('load', () => {
     const films = xhr.response.films;
     const halls = xhr.response.halls;
     const seances = xhr.response.seances;
-    films.result.forEach((el) => {
+    films.result.forEach(el => {
         main.insertAdjacentHTML("afterBegin", `
           <section class="movie" data-movieId="${el.film_id}">
               <div class="movie__info">
@@ -27,8 +27,8 @@ xhr.addEventListener('load', () => {
           </section>`);
     });
     const movieId = Array.from(document.querySelectorAll('.movie'));
-    movieId.forEach((element) => {
-        halls.result.forEach((elem) => {
+    movieId.forEach(element => {
+        halls.result.forEach(elem => {
             if (Number(elem.hall_open) !== 0) {
                 element.insertAdjacentHTML("beforeEnd", `
                <div class="movie-seances__hall movie-seances__hall__remove" data-hallId="${elem.hall_id}">
@@ -40,14 +40,14 @@ xhr.addEventListener('load', () => {
         });
     });
     const movieSeancesList = Array.from(document.querySelectorAll('.movie-seances__list'));
-    movieSeancesList.forEach((e) => {
+    movieSeancesList.forEach(e => {
         const dataMovieId = e.closest(".movie").getAttribute('data-movieId');
         const movieSeances = e.parentElement.getAttribute('data-hallId');
         for (let i = 0; i < seances.result.length; i++) {
             if (dataMovieId === seances.result[i].seance_filmid && movieSeances === seances.result[i].seance_hallid) {
                 e.parentElement.classList.add('movie-seances__hall__add');
                 e.insertAdjacentHTML("beforeEnd", `
-              <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html">${seances.result[i].seance_time}<a></li>
+              <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html" data-seancesTimeId="${seances.result[i].seance_id}">${seances.result[i].seance_time}<a></li>
               `);
             }
         }
