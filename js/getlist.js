@@ -53,3 +53,11 @@ xhr.addEventListener('load', () => {
         }
     });
 });
+
+document.addEventListener('click', e => {
+  if(e.target.getAttribute('data-seancesTimeId')) {
+    // e.preventDefault();
+    localStorage.setItem('seancesTimeId', e.target.getAttribute('data-seancesTimeId'));
+  }
+});
+
