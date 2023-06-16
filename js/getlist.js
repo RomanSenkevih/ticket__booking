@@ -7,6 +7,7 @@ function downloadsMoviesOfTheSelectedDay(update) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.send(`event=${update}`);
+
     xhr.addEventListener('load', () => {
         const films = xhr.response.films;
         const halls = xhr.response.halls;
@@ -55,15 +56,45 @@ function downloadsMoviesOfTheSelectedDay(update) {
                 }
             }
         });
+     
+        document.addEventListener('click', e => {
+            if (e.target.getAttribute('data-seancesTimeId')) {
+            //   e.preventDefault();
+              let seanceHallid;
+              let seanceFilmid;
+              let selectSeanse = {}
+              selectSeanse.seancesId = e.target.getAttribute('data-seancesTimeId');
+              
+              seances.result.forEach(elemS => {
+                  if (elemS.seance_id === e.target.getAttribute('data-seancesTimeId')) {
+                      seanceHallid = elemS.seance_hallid;
+                      seanceFilmid = elemS.seance_filmid;
+                      selectSeanse.seanceTime = elemS.seance_time;
+                  }
+              });
+              
+              films.result.forEach(elemF => {
+                  if (elemF.film_id === seanceFilmid) {
+                    selectSeanse.filmName = elemF.film_name;
+                  }
+              });
+              halls.result.forEach(elemH => {
+                  if (elemH.hall_id === seanceHallid) {
+                      selectSeanse.hallName = elemH.hall_name;
+                      selectSeanse.hallPriceVip = elemH.hall_price_vip;
+                      selectSeanse.hallPriceStandart = elemH.hall_price_standart
+                  }
+              });
+               selectSeanse.seanceHallid;
+               selectSeanse.seanceFilmid;
+               localStorage.clear();
+               localStorage.setItem("selectSeanse", JSON.stringify(selectSeanse));
+            }
+          });
     });
     
 };
-document.addEventListener('click', e => {
-  if (e.target.getAttribute('data-seancesTimeId')) {
-      // e.preventDefault();
-      localStorage.setItem('seancesTimeId', e.target.getAttribute('data-seancesTimeId'));
-  }
-});
+// **********************************************************************************
 pageNavDay.forEach(el => {
     if (el.classList.contains('page-nav__day_chosen')) {
         downloadsMoviesOfTheSelectedDay('update')
@@ -80,3 +111,6 @@ pageNavDay.forEach(el => {
         downloadsMoviesOfTheSelectedDay('update')
     })
 });
+// const today = new Date();
+// 	today.setHours(0, 0, 0);
+//     console.log(today)
