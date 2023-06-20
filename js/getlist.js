@@ -1,5 +1,25 @@
 const main = document.querySelector('main');
 const pageNavDay = Array.from(document.querySelectorAll('.page-nav__day'));
+let timeStamp;
+
+pageNavDay.forEach(el => {
+    if (el.classList.contains('page-nav__day_chosen')) {
+        downloadsMoviesOfTheSelectedDay('update')
+        timeStamp = el.getAttribute('data-time-stamp');
+    }
+    el.addEventListener('click', () => {
+        pageNavDay.forEach(el => {
+            el.classList.remove('page-nav__day_chosen')
+        });
+        el.classList.add('page-nav__day_chosen')
+        let movie = Array.from(document.querySelectorAll('.movie'));
+        movie.forEach(elem => {
+            elem.remove()
+        })
+        downloadsMoviesOfTheSelectedDay('update')
+        timeStamp = el.getAttribute('data-time-stamp');
+    })
+});
 
 function downloadsMoviesOfTheSelectedDay(update) {
     const xhr = new XMLHttpRequest();
@@ -58,10 +78,13 @@ function downloadsMoviesOfTheSelectedDay(update) {
         });
      
         document.addEventListener('click', e => {
+              e.preventDefault();
+            
             if (e.target.getAttribute('data-seancesTimeId')) {
-            //   e.preventDefault();
+            
               let seanceHallid;
               let seanceFilmid;
+              let seanceStart;
               let selectSeanse = {}
               selectSeanse.seancesId = e.target.getAttribute('data-seancesTimeId');
               
@@ -69,10 +92,13 @@ function downloadsMoviesOfTheSelectedDay(update) {
                   if (elemS.seance_id === e.target.getAttribute('data-seancesTimeId')) {
                       seanceHallid = elemS.seance_hallid;
                       seanceFilmid = elemS.seance_filmid;
+                      seanceStart = elemS.seance_start;
                       selectSeanse.seanceTime = elemS.seance_time;
                   }
               });
-              
+                          
+              selectSeanse.timestamp = (Number(seanceStart) * 60) + Number(timeStamp)
+
               films.result.forEach(elemF => {
                   if (elemF.film_id === seanceFilmid) {
                     selectSeanse.filmName = elemF.film_name;
@@ -89,28 +115,9 @@ function downloadsMoviesOfTheSelectedDay(update) {
                selectSeanse.seanceFilmid;
                localStorage.clear();
                localStorage.setItem("selectSeanse", JSON.stringify(selectSeanse));
-            }
+            };
           });
     });
     
 };
 // **********************************************************************************
-pageNavDay.forEach(el => {
-    if (el.classList.contains('page-nav__day_chosen')) {
-        downloadsMoviesOfTheSelectedDay('update')
-    }
-    el.addEventListener('click', () => {
-        pageNavDay.forEach(el => {
-            el.classList.remove('page-nav__day_chosen')
-        });
-        el.classList.add('page-nav__day_chosen')
-        let movie = Array.from(document.querySelectorAll('.movie'));
-        movie.forEach(elem => {
-            elem.remove()
-        })
-        downloadsMoviesOfTheSelectedDay('update')
-    })
-});
-// const today = new Date();
-// 	today.setHours(0, 0, 0);
-//     console.log(today)
