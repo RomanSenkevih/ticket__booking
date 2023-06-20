@@ -4,11 +4,11 @@ const dayWeekList = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 const today = new Date();
 today.setHours(0, 0, 0);
 
-pageNavDayNumber.forEach((element, i) => {
-   const day = new Date(today.getTime() + (i * 24 * 60 * 60 * 1000));
+pageNavDayNumber.forEach((element, index) => {
+   const day = new Date(today.getTime() + (index * 24 * 60 * 60 * 1000));
    const timestamp = Math.trunc(day / 1000);
    element.textContent = `${day.getDate()},`;
-   pageNavDayWeek[i].textContent = dayWeekList[day.getDay()];
+   pageNavDayWeek[index].textContent = dayWeekList[day.getDay()];
    element.parentElement.dataset.timeStamp = timestamp;
 });
 

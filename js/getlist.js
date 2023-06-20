@@ -71,17 +71,16 @@ function downloadsMoviesOfTheSelectedDay(update) {
                 if (dataMovieId === seances.result[i].seance_filmid && movieSeances === seances.result[i].seance_hallid) {
                     e.parentElement.classList.add('movie-seances__hall__add');
                     e.insertAdjacentHTML("beforeEnd", `
-              <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html" data-seancesTimeId="${seances.result[i].seance_id}">${seances.result[i].seance_time}<a></li>
+              <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html" data-seanceStart=${seances.result[i].seance_start} data-seancesTimeId="${seances.result[i].seance_id}">${seances.result[i].seance_time}<a></li>
               `);
                 }
             }
         });
      
         document.addEventListener('click', e => {
-              e.preventDefault();
+            //   e.preventDefault();
             
             if (e.target.getAttribute('data-seancesTimeId')) {
-            
               let seanceHallid;
               let seanceFilmid;
               let seanceStart;
@@ -121,3 +120,19 @@ function downloadsMoviesOfTheSelectedDay(update) {
     
 };
 // **********************************************************************************
+
+
+function inactiveSession() {
+    const movieSeancesTime =Array.from(document.querySelectorAll('.movie-seances__time'));
+    movieSeancesTime.forEach(elem => {
+        let today = Number(pageNavDay[0].getAttribute('data-time-stamp'))
+        let dataSeanceStart = Number(elem.getAttribute('data-seanceStart')) * 60; 
+        let timeStampSeance = Math.trunc(dataSeanceStart + (Number(today) / 1000))
+        let timeisNow = Math.trunc(Date.now() /1000)
+        if(timeStampSeance <  timeisNow) {
+             console.log(Math.trunc(Date.now() /1000))
+        }
+    }); 
+};
+
+setInterval(inactiveSession, 10000)
