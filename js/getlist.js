@@ -106,11 +106,12 @@ function downloadsMoviesOfTheSelectedDay(update) {
                   if (elemH.hall_id === seanceHallid) {
                       selectSeanse.hallName = elemH.hall_name;
                       selectSeanse.hallPriceVip = elemH.hall_price_vip;
-                      selectSeanse.hallPriceStandart = elemH.hall_price_standart
+                      selectSeanse.hallPriceStandart = elemH.hall_price_standart;
+                      selectSeanse.hallConfig = elemH.hall_config;
                   }
               });
-               selectSeanse.seanceHallid;
-               selectSeanse.seanceFilmid;
+               selectSeanse.seanceHallid = seanceHallid;
+               selectSeanse.seanceFilmid = seanceFilmid;
                localStorage.clear();
                localStorage.setItem("selectSeanse", JSON.stringify(selectSeanse));
             };
