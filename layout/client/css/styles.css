@@ -169,6 +169,11 @@ body {
   font-size: 1.5rem;
 }
 
+.movie .movie-seances__hall .pointer-events-none {
+  pointer-events: none;
+  background-color: #777474;
+}
+
 .movie .movie-seances__hall__remove {
    display: none;
 }

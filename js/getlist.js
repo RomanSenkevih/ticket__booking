@@ -20,7 +20,7 @@ pageNavDay.forEach(el => {
         timeStamp = el.getAttribute('data-time-stamp');
     })
 });
-
+// *******************************************************************************************************
 function downloadsMoviesOfTheSelectedDay(update) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://jscp-diplom.netoserver.ru/');
@@ -78,8 +78,7 @@ function downloadsMoviesOfTheSelectedDay(update) {
         });
      
         document.addEventListener('click', e => {
-            //   e.preventDefault();
-            
+
             if (e.target.getAttribute('data-seancesTimeId')) {
               let seanceHallid;
               let seanceFilmid;
@@ -116,23 +115,20 @@ function downloadsMoviesOfTheSelectedDay(update) {
                localStorage.setItem("selectSeanse", JSON.stringify(selectSeanse));
             };
           });
+          inactiveSession();
     });
-    
 };
 // **********************************************************************************
-
-
 function inactiveSession() {
     const movieSeancesTime =Array.from(document.querySelectorAll('.movie-seances__time'));
     movieSeancesTime.forEach(elem => {
-        let today = Number(pageNavDay[0].getAttribute('data-time-stamp'))
         let dataSeanceStart = Number(elem.getAttribute('data-seanceStart')) * 60; 
-        let timeStampSeance = Math.trunc(dataSeanceStart + (Number(today) / 1000))
+        let timeStampSeance = Math.trunc(dataSeanceStart + Number(timeStamp))
         let timeisNow = Math.trunc(Date.now() /1000)
         if(timeStampSeance <  timeisNow) {
-             console.log(Math.trunc(Date.now() /1000))
+             elem.classList.add('pointer-events-none')
         }
     }); 
 };
 
-setInterval(inactiveSession, 10000)
+setInterval(inactiveSession, 300000)
