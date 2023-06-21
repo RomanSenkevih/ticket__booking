@@ -7,7 +7,7 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
     xhr2.responseType = 'json';
     xhr2.send(`event=get_hallConfig&timestamp=${selectedSession.timestamp}&hallId=${selectedSession.seanceHallid}&seanceId=${selectedSession.seancesId}`);
     xhr2.addEventListener('load', () => {
-        console.log(xhr2.response)
+        // console.log(xhr2.response)
       buying.insertAdjacentHTML("afterBegin", `
           <div class="buying__info">
              <div class="buying__info-description">
@@ -34,7 +34,41 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
             </div>
             </div>
   </div>
-  <button class="acceptin-button"  >Забронировать</button>`);
+  <button class="acceptin-button" ">Забронировать</button>`);//onclick="location.href='payment.html'
+//   *********************************************************************************************
+  let chairТumber = 0;
+  let sobNumber = 0;
+  const confStepRow = Array.from(document.querySelectorAll('.conf-step__row'));
+  const confStepChair = Array.from(document.querySelectorAll('.conf-step__chair'));
+
+  confStepChair.forEach((element) => {
+    if(!element.classList.contains('conf-step__chair_disabled') && element.parentElement.classList.contains("conf-step__row")) {
+        chairТumber += 1;
+        element.dataset.chairТumber = chairТumber;
+    }
+  })
+
+      confStepRow.forEach(el => {
+        sobNumber += 1;
+        el.dataset.sobNumber = sobNumber;
+      })
+
+  document.addEventListener('click', e => {
+    if (!e.target.classList.contains('conf-step__chair_disabled') && !e.target.classList.contains('conf-step__chair_taken') && e.target.parentElement.classList.contains("conf-step__row")) {
+       e.target.classList.toggle('conf-step__chair_selected');
+    }
+
+    if(e.target.classList.contains('acceptin-button')){
+        confStepChair.forEach((element) => {
+            if(element.classList.contains('conf-step__chair_selected') && element.parentElement.classList.contains("conf-step__row")) {
+               element.getAttribute('data-chairТumber');
+               element.parentElement.getAttribute('data-sob-number');
+               console.log(element.getAttribute('data-chairТumber'));
+               console.log(element.parentElement.getAttribute('data-sob-number'));
+            }
+          }); 
+    }
+  })
 });
 
 
