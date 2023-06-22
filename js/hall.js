@@ -38,6 +38,8 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
 //   *********************************************************************************************
   let chairТumber = 0;
   let sobNumber = 0;
+  let hellAndPlace = [];
+  let ticketPriceAmount = 0;
   const confStepRow = Array.from(document.querySelectorAll('.conf-step__row'));
   const confStepChair = Array.from(document.querySelectorAll('.conf-step__chair'));
 
@@ -61,11 +63,22 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
     if(e.target.classList.contains('acceptin-button')){
         confStepChair.forEach((element) => {
             if(element.classList.contains('conf-step__chair_selected') && element.parentElement.classList.contains("conf-step__row")) {
-               element.getAttribute('data-chairТumber');
-               element.parentElement.getAttribute('data-sob-number');
-               console.log(element.getAttribute('data-chairТumber'));
-               console.log(element.parentElement.getAttribute('data-sob-number'));
-            }
+              hellAndPlace.push(`${element.getAttribute('data-chairТumber')}/${element.parentElement.getAttribute('data-sob-number')}`);
+              
+              if(element.classList.contains('conf-step__chair_selected') && element.parentElement.classList.contains("conf-step__row") && element.classList.contains('conf-step__chair_standart')) {
+                ticketPriceAmount += Number(selectedSession.hallPriceStandart)
+              }else if(element.classList.contains('conf-step__chair_selected') && element.parentElement.classList.contains("conf-step__row") && element.classList.contains('conf-step__chair_vip')) {
+                ticketPriceAmount += Number(selectedSession.hallPriceVip);
+              }
+               selectedSession.hallConfig = 'lkjhgvfcdsdfghjklkjhgfds'
+               selectedSession.hellAndPlace = hellAndPlace;
+               selectedSession.ticketPriceAmount = ticketPriceAmount; 
+            } 
+            setTimeout(() => {
+              delete element.parentElement.dataset.sobNumber;
+              delete element.dataset.chairТumber;
+            }, 1000)
+            console.log(selectedSession)
           }); 
     }
   })
