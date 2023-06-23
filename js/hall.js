@@ -20,9 +20,7 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
             </div>
             </div>
             <div class="conf-step">
-            <div class="conf-step__wrapper">
-                ${xhr2.response !== null ? xhr2.response : selectedSession.hallConfig}
-             </div>
+            <div class="conf-step__wrapper">${xhr2.response !== null ? xhr2.response : selectedSession.hallConfig}</div>
              <div class="conf-step__legend">
             <div class="col">
                 <p class="conf-step__legend-price"><span class="conf-step__chair conf-step__chair_standart"></span> Свободно (<span class="conf-step__legend-value price-standart">${selectedSession.hallPriceStandart}</span>руб)</p>
@@ -34,12 +32,14 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
             </div>
             </div>
   </div>
-  <button class="acceptin-button" ">Забронировать</button>`);//onclick="location.href='payment.html'
+  <button class="acceptin-button">Забронировать</button>`);//onclick="location.href='payment.html'
+  // console.log(xhr2.response)
 //   *********************************************************************************************
   let chairТumber = 0;
   let sobNumber = 0;
   let hellAndPlace = [];
   let ticketPriceAmount = 0;
+  const confStepWrapper = document.querySelector('.conf-step__wrapper');
   const confStepRow = Array.from(document.querySelectorAll('.conf-step__row'));
   const confStepChair = Array.from(document.querySelectorAll('.conf-step__chair'));
 
@@ -62,24 +62,29 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
 
     if(e.target.classList.contains('acceptin-button')){
         confStepChair.forEach((element) => {
-            if(element.classList.contains('conf-step__chair_selected') && element.parentElement.classList.contains("conf-step__row")) {
-              hellAndPlace.push(`${element.getAttribute('data-chairТumber')}/${element.parentElement.getAttribute('data-sob-number')}`);
-              
-              if(element.classList.contains('conf-step__chair_selected') && element.parentElement.classList.contains("conf-step__row") && element.classList.contains('conf-step__chair_standart')) {
-                ticketPriceAmount += Number(selectedSession.hallPriceStandart)
-              }else if(element.classList.contains('conf-step__chair_selected') && element.parentElement.classList.contains("conf-step__row") && element.classList.contains('conf-step__chair_vip')) {
-                ticketPriceAmount += Number(selectedSession.hallPriceVip);
-              }
-               selectedSession.hallConfig = 'lkjhgvfcdsdfghjklkjhgfds'
-               selectedSession.hellAndPlace = hellAndPlace;
-               selectedSession.ticketPriceAmount = ticketPriceAmount; 
-            } 
-            setTimeout(() => {
-              delete element.parentElement.dataset.sobNumber;
-              delete element.dataset.chairТumber;
-            }, 1000)
-            console.log(selectedSession)
-          }); 
+               let row = element.parentElement.classList.contains("conf-step__row");
+               let selected = element.classList.contains('conf-step__chair_selected')
+               let standart = element.classList.contains('conf-step__chair_standart')
+               let vip = element.classList.contains('conf-step__chair_vip')
+              if(selected && row) {
+                 hellAndPlace.push(`${element.getAttribute('data-chairТumber')}/${element.parentElement.getAttribute('data-sob-number')}`);
+                 if(selected && row && standart) {
+                     ticketPriceAmount += Number(selectedSession.hallPriceStandart)
+                 }else if(selected && row && vip) {
+                     ticketPriceAmount += Number(selectedSession.hallPriceVip);
+                 }
+                 selectedSession.hellAndPlace = hellAndPlace;
+                 selectedSession.ticketPriceAmount = ticketPriceAmount;  
+              }  
+        });
+          
+        confStepChair.forEach((elem) => {
+          delete elem.parentElement.dataset.sobNumber;
+          delete elem.dataset.chairТumber;
+        });  
+        
+        selectedSession.hallConfig = confStepWrapper.innerHTML;
+        localStorage.setItem("selectedSession", JSON.stringify(selectedSession));
     }
   })
 });
