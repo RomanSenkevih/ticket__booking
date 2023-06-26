@@ -78,7 +78,6 @@ function downloadsMoviesOfTheSelectedDay(update) {
         });
      
         document.addEventListener('click', e => {
-
             if (e.target.getAttribute('data-seancesTimeId')) {
               let seanceHallid;
               let seanceFilmid;

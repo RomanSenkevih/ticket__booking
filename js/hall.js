@@ -32,8 +32,8 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
             </div>
             </div>
   </div>
-  <button class="acceptin-button">Забронировать</button>`);//onclick="location.href='payment.html'
-  // console.log(xhr2.response)
+  <a class="acceptin-button-a" href="payment.html"><button class="acceptin-button">Забронировать</button></a>`)
+  
 //   *********************************************************************************************
   let chairТumber = 0;
   let sobNumber = 0;
@@ -59,7 +59,7 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
     if (!e.target.classList.contains('conf-step__chair_disabled') && !e.target.classList.contains('conf-step__chair_taken') && e.target.parentElement.classList.contains("conf-step__row")) {
        e.target.classList.toggle('conf-step__chair_selected');
     }
-
+    
     if(e.target.classList.contains('acceptin-button')){
         confStepChair.forEach((element) => {
                let row = element.parentElement.classList.contains("conf-step__row");
@@ -74,17 +74,17 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
                      ticketPriceAmount += Number(selectedSession.hallPriceVip);
                  }
                  selectedSession.hellAndPlace = hellAndPlace;
-                 selectedSession.ticketPriceAmount = ticketPriceAmount;  
-              }  
+                 selectedSession.ticketPriceAmount = ticketPriceAmount; 
+              }
         });
-          
+        if(hellAndPlace.length > 0) { 
         confStepChair.forEach((elem) => {
           delete elem.parentElement.dataset.sobNumber;
           delete elem.dataset.chairТumber;
         });  
-        
         selectedSession.hallConfig = confStepWrapper.innerHTML;
         localStorage.setItem("selectedSession", JSON.stringify(selectedSession));
+      } else {e.preventDefault()}
     }
   })
 });

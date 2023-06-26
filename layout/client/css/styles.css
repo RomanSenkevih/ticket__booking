@@ -174,10 +174,6 @@ body {
   background-color: #777474;
 }
 
-.xxx{
-  pointer-events: none;
-}
-
 .movie .movie-seances__hall__remove {
    display: none;
 }
@@ -187,6 +183,11 @@ body {
 }
 
 /* ~~~~~~~~~~~~ Кинозал ~~~~~~~~~~~~ */
+
+.acceptin-button-a {
+  text-decoration: none;
+}
+
 .acceptin-button {
   display: block;
   margin: 3rem auto 0;
