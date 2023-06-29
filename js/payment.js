@@ -9,11 +9,13 @@ const xhr3 = new XMLHttpRequest();
         xhr3.responseType = 'json';
         xhr3.send(`event=sale_add&timestamp=${selectedSession.timestamp}&hallId=${selectedSession.seanceHallid}&seanceId=${selectedSession.seancesId}&hallConfiguration=${selectedSession.hallConfig}`);
         xhr3.addEventListener('load', () => {
+            console.log(xhr3.response)
             acceptinButton.addEventListener('click', (e) => {
+                
                 if(xhr3.response === null || xhr3.response === undefined) {
                     e.preventDefault();
                     alert('Что-то пошло не так! Попробуйте повторить бронирование через 5 минут.')
-                } else { }  
+                }  
             })
         });
 

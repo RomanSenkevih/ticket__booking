@@ -84,7 +84,10 @@ const selectedSession = JSON.parse(localStorage.selectSeanse);
         });  
         selectedSession.hallConfig = confStepWrapper.innerHTML;
         localStorage.setItem("selectedSession", JSON.stringify(selectedSession));
-      } else {e.preventDefault()}
+      } else {
+        e.preventDefault();
+        alert('Не выбрано место!')
+      }
     }
   })
 });
