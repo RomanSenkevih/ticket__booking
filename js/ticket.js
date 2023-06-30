@@ -1,23 +1,20 @@
-const ticket = document.querySelector('.ticket');
+const ticket = document.querySelector(".ticket");
 const selectedSession = JSON.parse(localStorage.selectedSession);
 let hellAndPlace = selectedSession.hellAndPlace[0];
 
-for(let i = 1; i < selectedSession.hellAndPlace.length; i++){
-    hellAndPlace += `, ${selectedSession.hellAndPlace[i]}`
+for (let i = 1; i < selectedSession.hellAndPlace.length; i++) {
+  hellAndPlace += `, ${selectedSession.hellAndPlace[i]}`;
 };
-let qrInfo = `На фильм ${selectedSession.filmName}, В зале ${selectedSession.hallName}, Ряд/Место ${hellAndPlace}, Начало сеанса ${new Date(selectedSession.timestamp * 1000)}`;
-console.log(new Date(selectedSession.timestamp * 1000))
-const qrcode1 = QRCreator(qrInfo, { image: "SVG" });
+let qrInfo = `На фильм ${selectedSession.filmName}, В зале ${
+  selectedSession.hallName
+}, Ряд/Место ${hellAndPlace}, Начало сеанса ${new Date(
+  selectedSession.timestamp * 1000
+)}`;
+console.log(new Date(selectedSession.timestamp * 1000));
+const qrcode = QRCreator(qrInfo, { image: "SVG" });
+const content = (qrcode) => {return qrcode.error ? `недопустимые исходные данные ${qrcode.error}` : qrcode.result;};
 
-const content = (qrcode) =>{
-  return qrcode.error ?
-    `недопустимые исходные данные ${qrcode.error}`:
-     qrcode.result;
-};
-
-
-
-ticket.insertAdjacentHTML("afterBegin",`
+ticket.insertAdjacentHTML("afterBegin", `
     <header class="tichet__check">
     <h2 class="ticket__check-title">Электронный билет</h2>
     </header>
@@ -35,6 +32,5 @@ ticket.insertAdjacentHTML("afterBegin",`
     </div>
 `);
 
-document.querySelector('.ticket__info-qr').append(content(qrcode1));
-qrcode1.download();
-
+document.querySelector(".ticket__info-qr").append(content(qrcode));
+qrcode.download();
