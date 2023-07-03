@@ -221,6 +221,7 @@ body {
 .buying {
   background-color: rgba(241, 235, 230, 0.95);
   padding-bottom: 3rem;
+  min-width: 320px
 }
 
 .buying__info {
@@ -384,6 +385,7 @@ body {
   margin-top: 6px;
   padding-top: 2rem;
   padding-bottom: 3rem;
+  min-width: 320px
 }
 .ticket__info-wrapper::before {
   content: '';
