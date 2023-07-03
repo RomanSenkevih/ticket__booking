@@ -182,6 +182,22 @@ body {
   display: block;
 }
 
+@media (max-width: 320px) {
+  .movie .movie__info {
+    display: block;
+  }
+
+  .page-nav {
+    flex-wrap: wrap;
+  }
+
+  .page-header__title {
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+}
+
 /* ~~~~~~~~~~~~ Кинозал ~~~~~~~~~~~~ */
 
 .acceptin-button-a {
